@@ -24,7 +24,7 @@ A robust, full-stack web application for managing tasks. This project demonstrat
 * **Database:** SQLite (Raw SQL)
 * **Frontend:** HTML5, CSS3, JavaScript (ES6+), Bootstrap 5
 * **Testing:** Pytest
-* **Tools:** Git
+* **Tools:** Git, Vercel (Deployment)
 
 ---
 
@@ -34,6 +34,7 @@ A robust, full-stack web application for managing tasks. This project demonstrat
 pelocal-assignment/
 ├── app.py               # Main Flask application & API Routes
 ├── db.py                # Database connection & Table initialization (Raw SQL)
+├── vercel.json          # Vercel deployment configuration
 ├── requirements.txt     # Python dependencies
 ├── README.md            # Project documentation
 ├── static/
@@ -50,7 +51,7 @@ pelocal-assignment/
 
 ## Installation & Setup
 
-Follow these steps to set up the environment and run the application.
+Follow these steps to set up the environment and run the application locally.
 
 ### 1. Clone the Repository
 
@@ -84,7 +85,7 @@ pip install -r requirements.txt
 
 ### 4. Initialize Database & Run
 
-The application automatically checks for the database file (`todo.db`) and initializes the table if it doesn't exist.
+The application automatically checks for the database file and initializes the table if it doesn't exist.
 
 ```bash
 python app.py
@@ -92,6 +93,24 @@ python app.py
 ```
 
 * **Server running at:** `http://127.0.0.1:5000/`
+
+---
+
+## Deployment & Serverless Notes
+
+This application is configured for deployment on **Vercel**.
+
+### Configuration (`vercel.json`)
+
+The project includes a `vercel.json` file to configure the Python runtime for the Serverless environment.
+
+### Important Note on Database Persistence
+
+Since Vercel uses a **Serverless/Read-Only file system**:
+
+1. The SQLite database file (`todo.db`) is created in the temporary `/tmp` directory.
+2. **Data Persistence:** Data stored in `/tmp` is ephemeral. This means **tasks may disappear** when the serverless function spins down (usually after a period of inactivity) or redeploys.
+3. For a permanent production environment, this SQLite setup would be replaced with an external database (e.g., PostgreSQL). This setup is optimized for the assignment requirements and demonstration purposes.
 
 ---
 
@@ -121,7 +140,6 @@ Content-Type: application/json
   "due_date": "2025-12-31",
   "status": "In Progress"
 }
-
 ```
 
 ---

@@ -1,12 +1,12 @@
 import sqlite3
 import os
+import tempfile
 
-DATABASE = 'todo.db'
+DATABASE = os.path.join(tempfile.gettempdir(), 'todo.db')
 
 def get_db_connection():
     """Establishes a connection to the database."""
     conn = sqlite3.connect(DATABASE)
-    # Allows accessing columns by name (row['title'])
     conn.row_factory = sqlite3.Row 
     return conn
 
@@ -24,7 +24,7 @@ def init_db():
                     status TEXT DEFAULT 'Pending'
                 );
             ''')
-        print("Database initialized successfully.")
+
     except sqlite3.Error as e:
         print(f"Error initializing database: {e}")
     finally:
